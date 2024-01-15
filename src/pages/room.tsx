@@ -3,7 +3,7 @@ import {Layout, SidebarNav} from "@/components/layout";
 import {Separator} from "@/components/ui/separator";
 import {Editor} from "@monaco-editor/react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
-import {useState} from "react";
+import React, {useState} from "react";
 import {ReactSketchCanvas} from "react-sketch-canvas";
 
 
@@ -44,7 +44,11 @@ export const Room = () => {
     );
 };
 
-const IDE_Draw_Switch = ({setIDE}) => {
+type Props = {
+    setIDE: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const IDE_Draw_Switch = ({setIDE}: Props) => {
     return (
         <Tabs defaultValue={"ide"} className={"w-[120px]"}>
             <TabsList className={"grid w-full grid-cols-2"}>
