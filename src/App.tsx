@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components";
 import { Home, Profile, UserProfile, Room, Settings, Account, Appearance, Notifications } from "@/pages";
-import { Route, Routes } from "react-router-dom";
+import {Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
     return (
@@ -10,7 +10,8 @@ function App() {
                 <Route path={"/room/:roomId"} element={<Room />} />
                 <Route path={"/profile"} element={<Profile />} />
                 <Route path={"/settings"} element={<Settings />}>
-                    <Route path={"profile"} element={<UserProfile />} />
+                    <Route index element={<Navigate to={"profile"}/>}/>
+                    <Route path={"profile"} index={true} element={<UserProfile />} />
                     <Route path={"account"} element={<Account />} />
                     <Route path={"appearance"} element={<Appearance />} />
                     <Route path={"notifications"} element={<Notifications />} />

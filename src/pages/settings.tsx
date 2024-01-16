@@ -19,19 +19,19 @@ export const Settings = () => {
                     defaultSize={10}
                 >
                     <Link to={"/settings/profile"}>
-                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start"}> Profile </Button>
+                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start dark:text-neutral-300"}> Profile </Button>
                     </Link>
                     <br />
                     <Link to={"/settings/account"}>
-                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start"}> Account </Button>
+                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start dark:text-neutral-300"}> Account </Button>
                     </Link>
                     <br />
                     <Link to={"/settings/appearance"}>
-                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start"}> Appearance </Button>
+                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start dark:text-neutral-300"}> Appearance </Button>
                     </Link>
                     <br />
                     <Link to={"/settings/notifications"}>
-                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start"}> Notifications </Button>
+                        <Button className={"dark:bg-neutral-800 dark:hover:bg-neutral-600 w-full justify-start dark:text-neutral-300"}> Notifications </Button>
                     </Link>
                     <br />
                 </ResizablePanel>
