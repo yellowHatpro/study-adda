@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
+import {db} from "../db/db";
 
 dotenv.config();
 
@@ -18,5 +19,6 @@ app.get("/", (req, res) => {
     message: "Study Adda",
   });
 });
+console.log(db)
 
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
