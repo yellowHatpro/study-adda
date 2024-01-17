@@ -7,6 +7,7 @@
 - React
 - Tailwind CSS
 - ShadCN UI
+- Drizzle ORM
 - More to come
 
 ## Under ~~active~~ development

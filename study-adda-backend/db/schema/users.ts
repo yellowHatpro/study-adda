@@ -8,7 +8,6 @@ export const users = pgTable(
         title: varchar('title', {length: 256}),
         dob: date('date'),
         email: varchar('email', {length: 256}),
-        password: varchar('password',{length: 256}),
         role: ROLE_ENUM('user')
     }
 )
