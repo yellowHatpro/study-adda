@@ -1,13 +1,9 @@
 import express from "express";
-import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
 import {db} from "../db/db";
 
-dotenv.config();
-
 const PORT = process.env.PORT || 8080;
-
 const app = express();
 
 app.use(cors());

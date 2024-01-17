@@ -1,4 +1,4 @@
-import {pgTable, serial, varchar} from "drizzle-orm/pg-core/index";
+import {pgTable, serial, varchar} from "drizzle-orm/pg-core";
 
 export const roomCategories = pgTable(
     'room_categories', {
