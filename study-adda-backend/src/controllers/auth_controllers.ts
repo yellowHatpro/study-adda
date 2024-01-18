@@ -2,7 +2,9 @@ import {User} from "../../types/user";
 import {db} from "../../db/db";
 import {eq} from "drizzle-orm";
 import {accounts, users} from "../../db";
-import {hashPassword} from "../../helpers/auth_helper";
+import {comparePassword, hashPassword} from "../../helpers/auth_helper";
+import * as process from "process";
+import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
     try {
@@ -44,8 +46,57 @@ export const registerController = async (req, res) => {
     }
 }
 export const loginController = async (req, res) => {
+    try {
+        const {email, password} = req.body
+        if (!email || !password) {
+            return res.status(401).send({
+                success: false,
+                message: "Invalid username or password"
+            })
+        }
+        //check user
+        const user = await db.query.users.findFirst({
+            where: eq(users.email, email)
+        })
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "Email is not registered, Please Sign in instead"
+            })
+        }
+        const {password: userPasswordInAccount} = await db.query.accounts.findFirst({
+            where: eq(accounts.userId, user.id),
+            columns: {
+                password: true
+            }
+        })
+        const match = await comparePassword(password, userPasswordInAccount)
+        if (!match){
+            return res.status(401).send({
+                success: false,
+                message: "Wrong password"
+            })
+        }
+        // JWT Token
+        const token = JWT.sign({id: user.id}, process.env.JWT_SECRET, {
+            expiresIn: "3d"
+        })
+        res.status(200).send({
+            success: true,
+            message: "Login Successful",
+            user,
+            token
+        })
+    } catch (e) {
+        console.log("Error in login",e)
+        res.status(500).send({
+            success: false,
+            message: "Login Error",
+            e
+        })
+    }
 
 }
 export const forgotPasswordController = async (req,res) => {
-
+//TODO: Once things get done, come back here. Will add SEND MAIL functionality
 }
