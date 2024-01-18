@@ -6,8 +6,8 @@ export const users = pgTable(
         id: serial('id').primaryKey(),
         name: varchar('name', {length: 256}),
         title: varchar('title', {length: 256}),
-        dob: date('date'),
+        dob: date('dob'),
         email: varchar('email', {length: 256}),
-        role: ROLE_ENUM('user')
+        role: ROLE_ENUM('role')
     }
 )
