@@ -7,6 +7,8 @@
 - React
 - Tailwind CSS
 - ShadCN UI
+- Node + ts-node + Express
+- PostgreSQL
 - Drizzle ORM
 - More to come
 
