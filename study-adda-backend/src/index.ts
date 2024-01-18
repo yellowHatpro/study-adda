@@ -1,8 +1,8 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import {db} from "../db/db";
 import authRoutes from "./routes/auth_routes";
+import {db} from "../db/db";
 
 const PORT = process.env.PORT || 8080;
 //rest object
@@ -22,5 +22,4 @@ app.get("/", (req, res) => {
   });
 });
 console.log(db)
-
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
