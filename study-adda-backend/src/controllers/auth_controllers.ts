@@ -95,7 +95,10 @@ export const loginController = async (req, res) => {
             e
         })
     }
+}
 
+export const githubController = async (req, res) => {
+    //TODO: GitHub oAuth. Should I use Passport js or manually setup this?
 }
 export const forgotPasswordController = async (req,res) => {
 //TODO: Once things get done, come back here. Will add SEND MAIL functionality

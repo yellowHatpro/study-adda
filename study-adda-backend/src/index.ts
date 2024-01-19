@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import authRoutes from "./routes/auth_routes";
+import roomRoutes from "./routes/room_routes"
 import {db} from "../db/db";
 
 const PORT = process.env.PORT || 8080;
@@ -15,7 +16,7 @@ app.use(morgan("dev"));
 
 //routes
 app.use("/api/v1/auth", authRoutes)
-
+app.use("api/v1/room", roomRoutes)
 app.get("/", (req, res) => {
   res.send({
     message: "Study Adda",
