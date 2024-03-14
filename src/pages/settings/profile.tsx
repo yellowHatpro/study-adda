@@ -22,6 +22,6 @@ export const UserProfile = () => {
         <Textarea placeholder={`I code stuff.`}/>
       </div>
     </div>
-    <Button className={"my-4"}><h1>Update Profile</h1></Button>
+    <Button className={"my-4"}><h1>Update profile</h1></Button>
   </section>
 }

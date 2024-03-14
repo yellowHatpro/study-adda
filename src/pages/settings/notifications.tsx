@@ -85,7 +85,7 @@ export const Notifications = () => {
                     </Form>
                 </div>
             </div>
-            <Button className={"my-4"}><h1>Update preferences</h1></Button>
+            <Button className={"my-4"}><h1>Update notifications</h1></Button>
         </section>
     );
 }

@@ -9,7 +9,7 @@ export function LoginPage() {
         <section className={"w-full flex flex-col items-center justify-center h-screen text-center"}>
             <h1 className={"font-bold text-2xl"}>Login</h1>
             <div className={"flex flex-col items-center child:m-2"}>
-                <Input id="name" type={"email"} placeholder="Enter youer email"/>
+                <Input id="name" type={"email"} placeholder="Enter your email"/>
                 <Input id="password" type={"password"} placeholder="Enter your password"/>
                 <Button className={"w-full m-4"}>
                     <h1>Login using email</h1>

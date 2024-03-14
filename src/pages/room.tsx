@@ -4,23 +4,23 @@ import { Separator } from "@/components/ui/separator";
 import { Editor } from "@monaco-editor/react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
 import React, { useState } from "react";
-import { ReactSketchCanvas } from "react-sketch-canvas";
+import {Excalidraw} from "@excalidraw/excalidraw";
 
 export const Room = () => {
     const { roomId } = useParams();
     const [isIDE, setIsIDE] = useState<boolean>(true);
     return (
         <Layout navbarElements={<IDE_Draw_Switch setIDE={setIsIDE} />}>
-            <div className={"container flex items-start gap-1"}>
+            <section className={"container flex items-start gap-1"}>
                 <aside
                     className={"fixed top-14 z-30 hidden shrink-0 md:sticky md:block"}
                 >
                     <text>Room {roomId}</text>
                     <SidebarNav />
                 </aside>
-                <Separator className={"flex min-h-screen"} orientation="vertical" />
-                <div className={"grow"}>
-                    <div className={"flex flex-col"}>
+                <Separator className={"flex"} orientation="vertical" />
+                <div className={"grow h-full"}>
+                    <div className={"flex flex-col h-full"}>
                         {isIDE && (
                             <Editor
                                 className={"fixed grow h-[85vh]"}
@@ -35,15 +35,13 @@ export const Room = () => {
                             />
                         )}
                         {!isIDE && (
-                            <ReactSketchCanvas
-                                canvasColor={"black"}
-                                className={"bg-red-100 fixed grow h-[85vh]"}
-                                strokeColor={"white"}
-                            />
+                            <div style={{height: "92vh"}}>
+                                <Excalidraw/>
+                            </div>
                         )}
                     </div>
                 </div>
-            </div>
+            </section>
         </Layout>
     );
 };
