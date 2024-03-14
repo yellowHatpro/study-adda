@@ -2,12 +2,15 @@ import {Button} from "@/components/ui/button.tsx";
 import {GithubIcon} from "lucide-react";
 import {Input} from "@/components/ui/input.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
+import {Link} from "react-router-dom";
 
 export const AuthPage = () => {
     return (
         <section className={"h-screen w-full"}>
             <nav className={"w-full flex justify-end"}>
-                <Button className={"m-4"} variant={"ghost"}> Login </Button>
+                <Link to={"/login"}>
+                    <Button className={"m-4"} variant={"ghost"}> Login </Button>
+                </Link>
             </nav>
             <section className={"w-full h-[80vh] text-center flex items-center justify-center"}>
                 <div className={"flex flex-col items-center "}>
