@@ -2,7 +2,7 @@ name: study-adda ci and push image to dockerhub and deploy on azure
 on:
   push:
     branches: ["master"]
-  pull-request:
+  pull_request:
     branches: ["master"]
 
 jobs:
