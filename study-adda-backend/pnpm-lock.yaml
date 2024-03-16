@@ -26,6 +26,9 @@ dependencies:
   morgan:
     specifier: ^1.10.0
     version: 1.10.0
+  nodemailer:
+    specifier: ^6.9.12
+    version: 6.9.12
   nodemon:
     specifier: ^3.0.2
     version: 3.0.2
@@ -2331,6 +2334,11 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /nodemailer@6.9.12:
+    resolution: {integrity: sha512-pnLo7g37Br3jXbF0bl5DekBJihm2q+3bB3l2o/B060sWmb5l+VqeScAQCBqaQ+5ezRZFzW5SciZNGdRDEbq89w==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /nodemon@3.0.2:

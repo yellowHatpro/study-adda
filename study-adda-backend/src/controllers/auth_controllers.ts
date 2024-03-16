@@ -6,7 +6,7 @@ import { comparePassword, hashPassword } from "../../helpers/auth_helper";
 import * as process from "process";
 import JWT from "jsonwebtoken";
 
-export const registerController = async (req, res) => {
+export const signInController = async (req, res) => {
     try {
         const { name, title, email, dob, password }: User = req.body;
         if (!name) return res.send({ message: "Name is required" });
@@ -62,6 +62,43 @@ export const registerController = async (req, res) => {
         });
     }
 };
+
+export const registerController = async (req,res) => {
+    try {
+        const {email} = req.body
+        if (!email) return res.status(401).send({
+            success: false,
+            message: "Invalid username",
+        });
+        const [prev_user] = await db
+            .selectDistinct()
+            .from(users)
+            .where(eq(users.email, email));
+        if (prev_user){
+            return res.status(200).send({
+                success: true,
+                user: prev_user
+            })
+        }
+        const [user] = await db
+            .insert(users)
+            .values({
+                email: email
+            })
+            .returning()
+        res.status(201).send({
+            success: true,
+            user: user
+        })
+
+    } catch (e) {
+        res.status(500).send({
+            success: false,
+            message: "Server error",
+        });
+    }
+}
+
 export const loginController = async (req, res) => {
     try {
         const { email, password } = req.body;

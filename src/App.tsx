@@ -4,6 +4,7 @@ import {Navigate, Route, Routes } from "react-router-dom";
 import {AuthPage} from "@/pages/auth.tsx";
 import {LoginPage} from "@/pages/login.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {SignInPage} from "@/pages/sign-in.tsx";
 
 function App() {
     const queryClient = new QueryClient()
@@ -14,6 +15,7 @@ function App() {
                     <Route path={"/"} element={<Home/>}/>
                     <Route path={"/auth"} element={<AuthPage/>}/>
                     <Route path={"/login"} element={<LoginPage/>}/>
+                    <Route path={"/sign-in"} element={<SignInPage/>}/>
                     <Route path={"/room/:roomId"} element={<Room/>}/>
                     <Route path={"/profile"} element={<Profile/>}/>
                     <Route path={"/settings"} element={<Settings/>}>
