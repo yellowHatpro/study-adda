@@ -8,16 +8,15 @@ import JWT from "jsonwebtoken";
 
 export const signInController = async (req, res) => {
     try {
-        const { name, title, email, dob, password }: User = req.body;
+        const { name, title, email, password }: User = req.body;
         if (!name) return res.send({ message: "Name is required" });
         if (!email) return res.send({ message: "Email is required" });
         if (!title) return res.send({ message: "Title is required" });
-        if (!dob) return res.send({ message: "DOB is required" });
         // check if name is allowed
         const [existing_username] = await db
             .selectDistinct()
             .from(users)
-            .where(eq(users.name, name));
+            .where(eq(users.title, title));
         if (existing_username) {
             return res.status(422).send({
                 success: false,
@@ -25,33 +24,26 @@ export const signInController = async (req, res) => {
             });
         }
         // check existing username
-        const [existing_user] = await db
+        const [user] = await db
             .selectDistinct()
             .from(users)
             .where(eq(users.email, email));
-        if (existing_user) {
-            return res.status(409).send({
-                success: false,
-                message: "User exists, consider logging in",
+        if (user) {
+            const accessToken = JWT.sign({ id: user.id }, process.env.JWT_SECRET, {
+                expiresIn: "3d",
+            });
+            await db.update(users)
+                .set({name: name, title: title})
+                .where(eq(users.email, email))
+
+            return res.status(200).send({
+                success: true,
+                user: user,
+                accesstoken: accessToken
             });
         }
         //Register User
         const hashedPassword = await hashPassword(password);
-        const [user] = await db
-            .insert(users)
-            .values({
-                name: name,
-                email: email,
-                dob: dob,
-                title: title,
-                role: "user",
-            })
-            .returning();
-        res.status(201).send({
-            success: true,
-            message: "User created",
-            user,
-        });
         await db
             .insert(accounts)
             .values({ userId: user.id, password: hashedPassword });

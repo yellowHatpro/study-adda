@@ -6,12 +6,17 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import authStore from "@/store/authStore.ts";
+import {LOCAL_STORAGE_ACCESS_TOKEN} from "@/lib/utils.ts";
+import {AuthState, UserState} from "@/types/auth.ts";
 
 interface Props {
     children: React.ReactNode
 }
 export const Navbar: React.FC<Props> = ({children}) => {
+    const navigate = useNavigate()
+    const {user} = authStore.getState()
     return (
         <header
             className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -32,7 +37,7 @@ export const Navbar: React.FC<Props> = ({children}) => {
                     <DropdownMenuContent>
                         <Link to={"/profile"}>
                             <DropdownMenuItem>
-                                Profile
+                                {user?.title ?? "Profile"}
                             </DropdownMenuItem>
                         </Link>
                         <DropdownMenuSeparator/>
@@ -42,7 +47,16 @@ export const Navbar: React.FC<Props> = ({children}) => {
                             </DropdownMenuItem>
                         </Link>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>{
+                            localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN)
+                            const authState : AuthState = {
+                                isAuthenticated: false,
+                                user: undefined,
+                                userState: UserState.LOGGED_OUT
+                            }
+                            authStore.setState(authState)
+                            navigate("/auth")
+                        }}>
                             Log Out
                         </DropdownMenuItem>
                     </DropdownMenuContent>

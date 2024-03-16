@@ -1,20 +1,22 @@
 import authStore from "@/store/authStore.ts";
-import {Navigate} from "react-router-dom";
-import {UserState} from "@/types/auth.ts";
-import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import {Navigate, useNavigate} from "react-router-dom";
+import {AuthState, UserState} from "@/types/auth.ts";
+import {Button} from "@/components/ui/button"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
+import {Input} from "@/components/ui/input"
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useMutation} from "@tanstack/react-query";
+import {LOCAL_STORAGE_ACCESS_TOKEN, URL} from "@/lib/utils.ts";
+import {toast} from "@/components/ui/use-toast.ts";
 
+type SignInProps = {
+    email: string,
+    name: string,
+    password: string
+    title: string,
+}
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -29,8 +31,6 @@ const formSchema = z.object({
         .min(3, {
             message: "title must be at least 3 character"
         }),
-    role: z.number()
-        .int(),
     password: z.string().min(6, {
         message: "Password must be at least 5 character"
     })
@@ -39,13 +39,52 @@ const formSchema = z.object({
 export function SignInPage() {
     const emailState =  authStore.getState()?.user?.email ?? ""
     const userState = authStore.getState()?.userState
+    const navigate = useNavigate()
+    const mutation = useMutation({
+        mutationFn: (payload: SignInProps) => {
+            return fetch(`${URL}/api/v1/auth/sign-in`, {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(
+                    payload
+                )
+            })
+        },
+        onSuccess: async (data) => {
+            const {user, accesstoken} = await data.json()
+            if (data.status==200){
+                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accesstoken)
+                const authState: AuthState = {
+                    isAuthenticated: true,
+                    user: user,
+                    userState: UserState.LOGGED_IN
+                }
+                authStore.setState(authState)
+                toast({
+                    title: "User created",
+                    description: "Let's go to the main page"
+                })
+                navigate("/")
+                return
+            }
+        },
+        onError: (error) => {
+            toast({
+                title: "Something went wrong",
+                description: error.message,
+            })
+        }
+    })
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
             email:emailState
-
-
         },
     })
 
@@ -54,9 +93,7 @@ export function SignInPage() {
     }
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+        mutation.mutate(values)
     }
 
     return (
