@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth_routes";
 import roomRoutes from "./routes/room_routes"
 import {db} from "../db/db";
+import userRoutes from "./routes/user_routes";
 
 const PORT = process.env.PORT || 8080;
 //rest object
@@ -16,7 +17,8 @@ app.use(morgan("dev"));
 
 //routes
 app.use("/api/v1/auth", authRoutes)
-app.use("api/v1/room", roomRoutes)
+app.use("/api/v1/room", roomRoutes)
+app.use("/api/v1/user", userRoutes)
 app.get("/", (req, res) => {
   res.send({
     message: "Study Adda",
