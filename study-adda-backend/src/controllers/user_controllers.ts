@@ -4,8 +4,7 @@ import {eq} from "drizzle-orm";
 
 export const userController = async (req, res) => {
     try {
-        const {id: userId} = req.user
-        console.log(userId)
+        const {id : userId} = req.user
         const [user] = await db
             .selectDistinct()
             .from(users)

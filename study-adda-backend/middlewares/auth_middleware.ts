@@ -15,9 +15,10 @@ export const requireSignIn = async (req, res, next) => {
                 message: "Error verifying using JWT"
             });
             req.user = user;
+            next();
         });
-        next();
+
     } catch (e) {
-        console.log(e);
+        console.log("Auth Middleware error", e);
     }
 }

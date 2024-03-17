@@ -5,7 +5,6 @@ import {useQuery} from "@tanstack/react-query";
 import {AuthState, UserState} from "@/types/auth.ts";
 import authStore from "@/store/authStore.ts";
 import {Navigate} from "react-router-dom";
-import {toast} from "@/components/ui/use-toast.ts";
 
 interface Props {
   children?: React.ReactNode;
@@ -16,10 +15,11 @@ export const Layout: React.FC<Props> = ({ children, navbarElements }) => {
     const {isPending: isAuthPending, isError: isAuthError, error: authError} = useQuery({
         queryKey: ['authHome'],
         queryFn: () => fetch(`${URL}/api/v1/user`, {
-            headers: {Authorization: `Bearer ${accessToken ? accessToken : ""}`}
+            headers: {authorization: `Bearer ${accessToken ? accessToken : ""}`}
         })
             .then((res)=>res.json())
             .then((res)=>{
+                console.log(res.user)
                 const authState : AuthState = {
                     isAuthenticated: true,
                     user: res.user,
@@ -32,12 +32,6 @@ export const Layout: React.FC<Props> = ({ children, navbarElements }) => {
         return <Navigate to={"/auth"}/>
     }
     if (isAuthPending) return "Loading"
-    if (isAuthError){
-        toast({
-            title: "Error",
-            description: authError.message
-        })
-    }
   return (
     <div className={"flex flex-col min-h-screen h-screen"}>
       <Navbar children={navbarElements} />

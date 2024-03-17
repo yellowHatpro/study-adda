@@ -10,6 +10,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useMutation} from "@tanstack/react-query";
 import {LOCAL_STORAGE_ACCESS_TOKEN, URL} from "@/lib/utils.ts";
 import {toast} from "@/components/ui/use-toast.ts";
+import {useEffect} from "react";
 
 type SignInProps = {
     email: string,
@@ -64,10 +65,6 @@ export function SignInPage() {
                     userState: UserState.LOGGED_IN
                 }
                 authStore.setState(authState)
-                toast({
-                    title: "User created",
-                    description: "Let's go to the main page"
-                })
                 navigate("/")
                 return
             }
@@ -95,6 +92,11 @@ export function SignInPage() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         mutation.mutate(values)
     }
+    useEffect(() => {
+        if (localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN))
+            navigate("/")
+
+    }, [navigate]);
 
     return (
         <section className={"flex h-screen justify-around items-center flex-col"}>

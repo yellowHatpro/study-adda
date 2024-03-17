@@ -4,8 +4,8 @@ import {Input} from "@/components/ui/input.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useMutation} from "@tanstack/react-query";
-import {URL} from "@/lib/utils.ts";
-import {useState} from "react";
+import {LOCAL_STORAGE_ACCESS_TOKEN, URL} from "@/lib/utils.ts";
+import {useEffect, useState} from "react";
 import authStore from "@/store/authStore.ts";
 import {AuthState, UserState} from "@/types/auth.ts";
 
@@ -71,6 +71,13 @@ export const AuthPage = () => {
             }
         }
     })
+
+    useEffect(() => {
+        if (localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN))
+            navigate("/")
+
+    }, [navigate]);
+
     return (
         <section className={"h-screen w-full"}>
             <nav className={"w-full flex justify-end"}>

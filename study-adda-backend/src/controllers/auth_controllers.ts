@@ -36,17 +36,18 @@ export const signInController = async (req, res) => {
                 .set({name: name, title: title})
                 .where(eq(users.email, email))
 
+            //Register User
+            const hashedPassword = await hashPassword(password);
+            await db
+                .insert(accounts)
+                .values({ userId: user.id, password: hashedPassword });
+
             return res.status(200).send({
                 success: true,
                 user: user,
-                accesstoken: accessToken
+                accessToken: accessToken
             });
         }
-        //Register User
-        const hashedPassword = await hashPassword(password);
-        await db
-            .insert(accounts)
-            .values({ userId: user.id, password: hashedPassword });
     } catch (e) {
         res.status(500).send({
             success: false,
@@ -127,7 +128,7 @@ export const loginController = async (req, res) => {
         //Assuming user has been verified
         // Access Token
         const accessToken = JWT.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: "3d",
+            expiresIn: "30d",
         });
         const refreshToken = JWT.sign({ id: user.id }, process.env.REFRESH_SECRET);
         res.status(200).send({
