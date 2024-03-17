@@ -13,7 +13,7 @@ export const rooms = pgTable(
 
 export const roomsToRoomCategories = pgTable(
     'rooms_to_rooms_categories', {
-        roomId: serial('user_id').notNull().references(()=>rooms.id),
+        roomId: serial('room_id').notNull().references(()=>rooms.id),
         categoryId: serial('category_id').notNull().references(()=>roomCategories.id)
     }
 )

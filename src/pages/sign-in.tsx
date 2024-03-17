@@ -41,6 +41,13 @@ export function SignInPage() {
     const emailState =  authStore.getState()?.user?.email ?? ""
     const userState = authStore.getState()?.userState
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN))
+            navigate("/")
+
+    }, [navigate]);
+
     const mutation = useMutation({
         mutationFn: (payload: SignInProps) => {
             return fetch(`${URL}/api/v1/auth/sign-in`, {
@@ -92,11 +99,6 @@ export function SignInPage() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         mutation.mutate(values)
     }
-    useEffect(() => {
-        if (localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN))
-            navigate("/")
-
-    }, [navigate]);
 
     return (
         <section className={"flex h-screen justify-around items-center flex-col"}>

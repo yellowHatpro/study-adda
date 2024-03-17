@@ -22,9 +22,9 @@ export const Navbar: React.FC<Props> = ({children}) => {
             className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className={"flex flex-row items-center justify-between w-full p-2"}>
                 <Link to={"/"}>
-                    <text className={"font-light hover:bg-neutral-700 p-2 rounded-md"}>
+                    <h1 className={"font-light hover:bg-neutral-700 p-2 rounded-md"}>
                         Study Adda
-                    </text>
+                    </h1>
                 </Link>
                 {children}
                 <DropdownMenu>

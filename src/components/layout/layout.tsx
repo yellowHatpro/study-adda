@@ -12,7 +12,7 @@ interface Props {
 }
 export const Layout: React.FC<Props> = ({ children, navbarElements }) => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN)
-    const {isPending: isAuthPending, isError: isAuthError, error: authError} = useQuery({
+    const {isPending: isAuthPending} = useQuery({
         queryKey: ['authHome'],
         queryFn: () => fetch(`${URL}/api/v1/user`, {
             headers: {authorization: `Bearer ${accessToken ? accessToken : ""}`}
