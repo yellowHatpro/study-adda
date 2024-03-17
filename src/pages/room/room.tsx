@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Layout, SidebarNav } from "@/components/layout";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/separator.tsx";
 import { Editor } from "@monaco-editor/react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
 import React, { useState } from "react";

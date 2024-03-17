@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import {PlusIcon} from "lucide-react";
 import Loading from "@/components/loading.tsx";
+import {Link} from "react-router-dom";
 
 export const Home = () => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN)
@@ -37,15 +38,19 @@ export const Home = () => {
             <div className={"w-full h-screen flex flex-col items-center justify-center"}>
                 {error.message===USER_NO_ROOM_CREATED ? <>
                 <h1 className={"p-4"}>Oops! You have not joined any rooms</h1>
-                <Button>Join rooms</Button>
+                <Button asChild>
+                    <Link to={"/room"}>
+                        <h1>Join rooms</h1>
+                    </Link>
+                </Button>
                 <div className={"flex flex-row w-[90px] p-4  items-center child:mx-2 justify-center"}>
                     <Separator/>
                     <p>OR</p>
                     <Separator/>
                 </div>
-                <Button className={"child:mx-0.5"}>
-                    <PlusIcon/>
-                    <h1>Create new room</h1>
+                <Button asChild className={"child:mx-0.5"}>
+                    <Link to={"/room/create-room"}><PlusIcon/>
+                        <h1>Create new room</h1></Link>
                 </Button>
             </> : <h1>Network Issue</h1>}
             </div>
@@ -55,7 +60,7 @@ export const Home = () => {
     return (
         <Layout>
             <section className={"p-4 flex"}>
-                {<div></div>}
+                {data.toString()}
             </section>
         </Layout>
     );
