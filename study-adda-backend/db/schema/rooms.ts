@@ -4,7 +4,7 @@ import {roomCategories} from "./room_categories";
 export const rooms = pgTable(
     'rooms', {
         id: serial('id').primaryKey(),
-        name: varchar('name', {length: 256})
+        name: varchar('name', {length: 256}),
     }
 )
 

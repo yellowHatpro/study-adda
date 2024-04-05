@@ -5,6 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 import {AuthState, UserState} from "@/types/auth.ts";
 import authStore from "@/store/authStore.ts";
 import {Navigate} from "react-router-dom";
+import Loading from "@/components/loading.tsx";
 
 interface Props {
   children?: React.ReactNode;
@@ -19,8 +20,8 @@ export const Layout: React.FC<Props> = ({ children, navbarElements }) => {
         })
             .then((res)=>res.json())
             .then((res)=>{
-                console.log(res.user)
                 const authState : AuthState = {
+                    //TODO: Check if access token is OK
                     isAuthenticated: true,
                     user: res.user,
                     userState: UserState.LOGGED_IN
@@ -31,7 +32,10 @@ export const Layout: React.FC<Props> = ({ children, navbarElements }) => {
     if (!accessToken){
         return <Navigate to={"/auth"}/>
     }
-    if (isAuthPending) return "Loading"
+    if (isAuthPending) return <div className={"w-full flex h-screen justify-center items-center"}>
+        <Loading/>
+    </div>
+
   return (
     <div className={"flex flex-col min-h-screen h-screen"}>
       <Navbar children={navbarElements} />

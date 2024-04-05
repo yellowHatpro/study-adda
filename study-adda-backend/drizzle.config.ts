@@ -6,6 +6,6 @@ export default {
     out: './drizzle',
     driver: 'pg', // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'
     dbCredentials: {
-        connectionString: process.env.PSQL_URL
+        connectionString: process.env.PSQL_URL_DEV
     },
 } satisfies Config;
