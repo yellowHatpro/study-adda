@@ -4,8 +4,24 @@ import {eq} from "drizzle-orm";
 
 export const createRoomController = async (req, res) => {
     try {
-        const userId = req.user;
-    } catch (e) { }
+        const {name} = req.body;
+        console.log(name)
+        const [room] =  await db
+            .insert(rooms)
+            .values({name: name})
+            .returning()
+        res.status(201)
+            .send({
+                success: true,
+                room
+            })
+    } catch (e) {
+        console.log(e)
+        res.status(500).send({
+            success: false,
+            message: "Server error"
+        })
+    }
 };
 export const getRoomController = async (req, res) => {
     try {
@@ -14,7 +30,7 @@ export const getRoomController = async (req, res) => {
 };
 export const getAllRoomsController = async (req, res) => {
     try {
-        const [roomsData] = await db
+        const roomsData = await db
             .select()
             .from(rooms)
         if (!roomsData){
@@ -27,6 +43,26 @@ export const getAllRoomsController = async (req, res) => {
             success: true,
             roomsData
         })
+    } catch (e) {
+        res.status(500).send({
+            success: false,
+            message: "Server error",
+        });
+    }
+}
+
+export const getAllRoomCategoriesController = async (req, res) => {
+    try {
+        const categories = await db
+            .select({
+                name: roomCategories.name
+            })
+            .from(roomCategories)
+            return res.status(200).send({
+                success: true,
+                categories
+            })
+
     } catch (e) {
         res.status(500).send({
             success: false,
@@ -60,6 +96,28 @@ export const getRoomCategoriesByRoomIdController = async (req, res) => {
             success: true,
             message: categoriesList
         })
+    } catch (e) {
+        res.status(500).send({
+            success: false,
+            message: "Server error",
+        });
+    }
+}
+
+export const createRoomCategoryController = async (req, res) => {
+    try {
+        const {categoryName} = req.body
+        console.log(categoryName)
+        const [category] = await db
+            .insert(roomCategories)
+            .values({
+                name: categoryName
+            }).returning()
+        res.status(201).send({
+            success: true,
+            message: category
+        })
+
     } catch (e) {
         res.status(500).send({
             success: false,

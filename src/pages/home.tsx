@@ -25,6 +25,7 @@ export const Home = () => {
             }
             return await response.json()
         }
+
     })
 
     if (isPending){

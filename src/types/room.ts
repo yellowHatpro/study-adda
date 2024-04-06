@@ -1,5 +1,5 @@
 export interface Room {
-    roomId?: number,
+    id?: number,
     name?: string,
     // description?: string,
     // category?: string[],

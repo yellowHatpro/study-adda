@@ -13,22 +13,26 @@ interface Props {
 }
 export const Layout: React.FC<Props> = ({ children, navbarElements }) => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN)
-    const {isPending: isAuthPending} = useQuery({
+    const {isPending: isAuthPending, isSuccess, data: user} = useQuery({
         queryKey: ['authHome'],
         queryFn: () => fetch(`${URL}/api/v1/user`, {
             headers: {authorization: `Bearer ${accessToken ? accessToken : ""}`}
         })
             .then((res)=>res.json())
             .then((res)=>{
-                const authState : AuthState = {
-                    //TODO: Check if access token is OK
-                    isAuthenticated: true,
-                    user: res.user,
-                    userState: UserState.LOGGED_IN
-                }
-                authStore.setState(authState)
+                return res.user
             })
     })
+    if (isSuccess){
+        const authState : AuthState = {
+            //TODO: Check if access token is OK
+            isAuthenticated: true,
+            user: user,
+            userState: UserState.LOGGED_IN
+        }
+        authStore.setState(authState)
+    }
+
     if (!accessToken){
         return <Navigate to={"/auth"}/>
     }

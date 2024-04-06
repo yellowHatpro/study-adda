@@ -4,7 +4,9 @@ import {CreateRoomCard} from "@/components";
 const CreateRoomPage = () => {
     return (
         <Layout>
-            <CreateRoomCard/>
+            <div className={"flex justify-center h-full items-center"}>
+                <CreateRoomCard/>
+            </div>
         </Layout>
     )
 }
