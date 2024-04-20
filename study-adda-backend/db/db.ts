@@ -6,7 +6,7 @@ import * as process from "process";
 dotenv.config();
 
 if (!process.env.PSQL_URL) {
-  throw new Error("DB credentials error");
+  console.log(process.env.NODE_ENV);
 }
 const client = postgres(process.env.PSQL_URL);
 export const db = drizzle(client, {
