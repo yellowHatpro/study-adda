@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./study-adda-backend
+    working-directory: study-adda-backend
 
 jobs:
   build_and_push:
