@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check path
-        run: ls
       - name: Build docker image
         run: docker build -t yellowhatpro/study-adda .
       - name: Login to dockerhub
@@ -29,4 +27,4 @@ jobs:
         run: docker push yellowhatpro/study-adda
       - name: Render deploy trigger
         run: |
-          curl -X https://api.render.com/deploy/srv-cohk6ftjm4es739abeb0?key=${{ secrets.MY_RENDER_API_KEY}}
+          curl -X GET https://api.render.com/deploy/srv-cohk6ftjm4es739abeb0?key=${{ secrets.MY_RENDER_API_KEY}}
