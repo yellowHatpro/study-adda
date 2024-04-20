@@ -5,10 +5,10 @@ import * as schema from "./index";
 import * as process from "process";
 dotenv.config();
 
-if (!process.env.PSQL_URL_DEV) {
-    throw new Error("DB credentials error");
+if (!process.env.PSQL_URL) {
+  throw new Error("DB credentials error");
 }
-const client = postgres(process.env.PSQL_URL_DEV);
+const client = postgres(process.env.PSQL_URL);
 export const db = drizzle(client, {
-    schema: schema,
+  schema: schema,
 });
