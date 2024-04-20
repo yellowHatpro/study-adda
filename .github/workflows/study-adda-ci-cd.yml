@@ -15,6 +15,7 @@ jobs:
     environment: dockerhub
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Check path
         run: ls
       - name: Build docker image
