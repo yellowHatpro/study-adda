@@ -5,16 +5,16 @@ on:
   pull_request:
     branches: ["master"]
 
+defaults:
+  run:
+    working-directory: ./study-adda-backend
+
 jobs:
   build_and_push:
     name: study-adda
     environment: dockerhub
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./study-adda-backend
-
-    steps:
+       steps:
       - name: Build docker image
         run: docker build -t yellowhatpro/study-adda .
       - name: Login to dockerhub
