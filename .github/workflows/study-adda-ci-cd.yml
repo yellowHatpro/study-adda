@@ -11,10 +11,12 @@ defaults:
 
 jobs:
   build_and_push:
-    name: study-adda
+    name: study-adda-ci
     environment: dockerhub
     runs-on: ubuntu-latest
     steps:
+      - name: Check path
+        run: ls
       - name: Build docker image
         run: docker build -t yellowhatpro/study-adda .
       - name: Login to dockerhub
