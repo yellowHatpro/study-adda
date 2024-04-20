@@ -5,6 +5,9 @@ import {toast} from "@/components/ui/use-toast.ts";
 import Loading from "@/components/loading.tsx";
 import {Room} from "@/types/room.ts";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {Link} from "react-router-dom";
+import {PlusIcon} from "lucide-react";
 
 const RoomsPage = () => {
 
@@ -27,6 +30,17 @@ const RoomsPage = () => {
 
     if (getRoomsPending){
         return <Loading/>
+    }
+
+    if (!rooms || (rooms && rooms.length===0)){
+        return <div
+            className={"flex flex-col items-center justify-center h-screen"}>
+            <h1>Oops, no rooms in this trash application :(</h1>
+            <Button asChild className={"child:mx-0.5 my-4"}>
+                <Link to={"/room/create-room"}><PlusIcon/>
+                    <h1>Create new room</h1></Link>
+            </Button>
+        </div>
     }
 
     return <Layout>

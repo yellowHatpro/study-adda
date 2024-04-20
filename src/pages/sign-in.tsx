@@ -63,9 +63,9 @@ export function SignInPage() {
             })
         },
         onSuccess: async (data) => {
-            const {user, accesstoken} = await data.json()
+            const {user, accessToken} = await data.json()
             if (data.status==200){
-                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accesstoken)
+                localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accessToken)
                 const authState: AuthState = {
                     isAuthenticated: true,
                     user: user,

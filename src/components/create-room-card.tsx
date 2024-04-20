@@ -116,7 +116,10 @@ export const CreateRoomCard = () => {
                                     <SelectValue placeholder="Select"/>
                                 </SelectTrigger>
                                 {getCategoryIsPending ? <Loading/> : <SelectContent position="popper">
-                                    {roomCategories?.map((category, index) => <SelectItem
+                                    {roomCategories?.length==0 ?
+                                        <h1 className={"text-sm p-2"}>No category available, create some :)</h1> :
+                                        // Once we have categories available
+                                        roomCategories?.map((category, index) => <SelectItem
                                         value={category.name} key={index}>{category.name}</SelectItem>)}
                                 </SelectContent>}
                             </Select>
