@@ -14,7 +14,7 @@ jobs:
     name: study-adda
     environment: dockerhub
     runs-on: ubuntu-latest
-       steps:
+    steps:
       - name: Build docker image
         run: docker build -t yellowhatpro/study-adda .
       - name: Login to dockerhub
