@@ -4,10 +4,10 @@ import {URL} from "@/lib/utils.ts";
 import {toast} from "@/components/ui/use-toast.ts";
 import Loading from "@/components/loading.tsx";
 import {Room} from "@/types/room.ts";
-import {Card, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Link} from "react-router-dom";
 import {PlusIcon} from "lucide-react";
+import {RoomCard} from "@/components/room-card.tsx";
 
 const RoomsPage = () => {
 
@@ -47,13 +47,9 @@ const RoomsPage = () => {
         {rooms && rooms.map((room,index)=>{
             return (
                 <section className={""}>
-                    <Card className={"flex max-w-[450px] min-w-fit p-4 m-4"} key={index}>
-                        <CardHeader>
-                            <CardTitle>
-                                {room.name}
-                            </CardTitle>
-                        </CardHeader>
-                    </Card>
+                    <RoomCard
+                        room={room}
+                        key={index}/>
                 </section>
             )
         })}
