@@ -1,4 +1,4 @@
-name: study-adda ci and push image to dockerhub and deploy on azure
+name: study-adda ci and push image to dockerhub and deploy on render
 on:
   push:
     branches: ["master"]
