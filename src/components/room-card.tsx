@@ -41,7 +41,7 @@ export function RoomCard({room, isJoined}: CardProps) {
         <Card className={"flex flex-col w-full max-w-[350px] min-w-fit mx-auto items-center"}>
             <CardHeader>
                 <CardTitle>
-                    {room.name}
+                    {room.name || 'Unnamed Room'}
                 </CardTitle>
             </CardHeader>
             <CardFooter className={"flex flex-row justify-between w-full"}>
@@ -50,18 +50,22 @@ export function RoomCard({room, isJoined}: CardProps) {
                     variant={"outline"}
                     size={"icon"}
                     onClick={() => {
-                        mutation.mutate({roomId: room.id})
+                        if (room.id) {
+                            mutation.mutate({roomId: room.id})
+                        }
                     }}>
                     {isJoined ? <XIcon className={"w-4 h-4"}/> : <PlusIcon className={"w-4 h-4"}/>}
                 </Button>
-                <Link to={`/room/${room.id}`}>
-                    <Button 
-                        size={"icon"}
-                        className={"rounded-full"}
-                    >
-                        <ArrowRight className={"w-4 h-4"}/>
-                    </Button>
-                </Link>
+                {room.id && (
+                    <Link to={`/room/${room.id}`}>
+                        <Button 
+                            size={"icon"}
+                            className={"rounded-full"}
+                        >
+                            <ArrowRight className={"w-4 h-4"}/>
+                        </Button>
+                    </Link>
+                )}
             </CardFooter>
         </Card>
     );

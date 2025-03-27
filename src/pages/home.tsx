@@ -64,7 +64,7 @@ export const Home = () => {
     );
   }
 
-  if (isJoinedRoomsError) {
+  if (isJoinedRoomsError || isRoomsError) {
     return (
       <Layout>
         <div
@@ -72,7 +72,7 @@ export const Home = () => {
             "w-full h-screen flex flex-col items-center justify-center"
           }
         >
-          {joinedRoomsError.message === USER_NO_ROOM_CREATED ? (
+          {joinedRoomsError?.message === USER_NO_ROOM_CREATED ? (
             <>
               <h1 className={"p-4"}>Oops! You have not joined any rooms</h1>
               <Button asChild>
@@ -95,6 +95,10 @@ export const Home = () => {
                   <h1>Create new room</h1>
                 </Link>
               </Button>
+            </>
+          ) : roomsError ? (
+            <>
+            <h1>Issue with Rooms </h1>
             </>
           ) : (
             <h1>Network Issue</h1>
