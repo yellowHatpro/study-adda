@@ -40,7 +40,10 @@ export const signInController = async (req, res) => {
             const hashedPassword = await hashPassword(password);
             await db
                 .insert(accounts)
-                .values({ userId: user.id, password: hashedPassword });
+                .values({
+                    userId: user.id,
+                    password: hashedPassword
+                } as typeof accounts.$inferInsert);
 
             return res.status(200).send({
                 success: true,

@@ -5,9 +5,9 @@ export const rooms = pgTable(
     'rooms', {
         id: serial('id').primaryKey(),
         name: varchar('name', {length: 256}),
+        description: varchar('description', {length: 256})
     }
 )
-
 //Keeping Room to Category Relation, as I want rooms to belong to >=1 categories
 //Also I want categories to show rooms of such types
 
