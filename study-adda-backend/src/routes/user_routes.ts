@@ -1,5 +1,5 @@
 import express from "express";
-import {getUserJoinedRoomsController, userController} from "../controllers/user_controllers";
+import {getUserJoinedRoomsController, joinUserRoomController, userController} from "../controllers/user_controllers";
 import {requireSignIn} from "../../middlewares/auth_middleware";
 
 const router = express.Router();
@@ -7,5 +7,5 @@ const router = express.Router();
 
 router.get("/", requireSignIn,  userController)
 router.get("/rooms-joined", requireSignIn, getUserJoinedRoomsController)
-
+router.post("/join-room", requireSignIn, joinUserRoomController)
 export default router

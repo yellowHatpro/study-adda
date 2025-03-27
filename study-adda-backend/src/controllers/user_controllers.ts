@@ -51,3 +51,23 @@ export const getUserJoinedRoomsController = async (req, res) => {
         });
     }
 }
+
+export const joinUserRoomController = async (req, res) => {
+    try {
+        const {id: userId} = req.user
+        const {roomId} = req.body
+        const [room] = await db
+            .insert(usersToRooms)
+            .values({user_id: userId, room_id: roomId})
+            .returning()
+        return res.status(200).send({
+            success: true,
+            room
+        })
+    } catch (e) {
+        res.status(500).send({
+            success: false,
+            message: "Server error",
+        });
+    }
+}
