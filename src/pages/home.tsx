@@ -1,73 +1,17 @@
 import { Layout } from "@/components/layout";
-import { useQuery } from "@tanstack/react-query";
-import {
-  LOCAL_STORAGE_ACCESS_TOKEN,
-  NETWORK_ISSUE,
-  URL,
-  USER_NO_ROOM_CREATED,
-} from "@/lib/utils.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
 import { PlusIcon } from "lucide-react";
 import Loading from "@/components/loading.tsx";
 import { Link } from "react-router-dom";
 import { RoomCard } from "@/components/room-card.tsx";
-import { Room } from "@/types/room.ts";
+import { useRooms } from "@/hooks/useRooms";
 
 export const Home = () => {
-  const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
+  const { isLoading, hasError, noRoomsError, joinedRooms, roomsError } =
+    useRooms();
 
-  // Query to get joined rooms
-  const {
-    isPending: isJoinedRoomsPending,
-    isError: isJoinedRoomsError,
-    error: joinedRoomsError,
-    data: joinedRoomsData,
-  } = useQuery({
-    queryKey: ["getAllRooms"],
-    queryFn: async () => {
-      const response = await fetch(`${URL}/api/v1/user/rooms-joined`, {
-        headers: { authorization: `Bearer ${accessToken ? accessToken : ""}` },
-      });
-      const responseJson = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error("Unauthorized - Please login again");
-        }
-        if (response.status === 404) {
-          throw new Error(USER_NO_ROOM_CREATED);
-        }
-        throw new Error(responseJson.message || NETWORK_ISSUE);
-      }
-      return responseJson;
-    },
-  });
-
-  // Query to get room details
-  const {
-    isPending: isRoomsPending,
-    isError: isRoomsError,
-    error: roomsError,
-    data: roomsData,
-  } = useQuery({
-    queryKey: ["getRoomsDetails"],
-    queryFn: async () => {
-      if (isJoinedRoomsError || !joinedRoomsData?.roomIds) {
-        throw new Error(USER_NO_ROOM_CREATED);
-      }
-      const response = await fetch(`${URL}/api/v1/room`);
-      const responseJson = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseJson.message || NETWORK_ISSUE);
-      }
-      return responseJson.roomsData as Room[];
-    },
-    enabled: !!joinedRoomsData?.roomIds,
-  });
-
-  if (isJoinedRoomsPending || (isRoomsPending && !isJoinedRoomsError)) {
+  if (isLoading) {
     return (
       <Layout>
         <div className={"w-full h-full flex justify-center"}>
@@ -77,7 +21,7 @@ export const Home = () => {
     );
   }
 
-  if (isJoinedRoomsError || isRoomsError) {
+  if (hasError) {
     return (
       <Layout>
         <div
@@ -85,7 +29,7 @@ export const Home = () => {
             "w-full h-screen flex flex-col items-center justify-center"
           }
         >
-          {joinedRoomsError?.message == USER_NO_ROOM_CREATED ? (
+          {noRoomsError ? (
             <>
               <h1 className={"p-4"}>Oops! You have not joined any rooms</h1>
               <Button asChild>
@@ -120,11 +64,6 @@ export const Home = () => {
       </Layout>
     );
   }
-
-  // Filter rooms to only show joined rooms
-  const joinedRooms = roomsData?.filter(
-    (room) => room.id === joinedRoomsData.roomIds.room_id
-  );
 
   return (
     <Layout>
