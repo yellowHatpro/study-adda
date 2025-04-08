@@ -16,9 +16,14 @@ import { Room } from "@/types/room.ts";
 
 export const Home = () => {
   const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
-  
+
   // Query to get joined rooms
-  const { isPending: isJoinedRoomsPending, isError: isJoinedRoomsError, error: joinedRoomsError, data: joinedRoomsData } = useQuery({
+  const {
+    isPending: isJoinedRoomsPending,
+    isError: isJoinedRoomsError,
+    error: joinedRoomsError,
+    data: joinedRoomsData,
+  } = useQuery({
     queryKey: ["getAllRooms"],
     queryFn: async () => {
       const response = await fetch(`${URL}/api/v1/user/rooms-joined`, {
@@ -40,21 +45,29 @@ export const Home = () => {
   });
 
   // Query to get room details
-  const { isPending: isRoomsPending, isError: isRoomsError, error: roomsError, data: roomsData } = useQuery({
+  const {
+    isPending: isRoomsPending,
+    isError: isRoomsError,
+    error: roomsError,
+    data: roomsData,
+  } = useQuery({
     queryKey: ["getRoomsDetails"],
     queryFn: async () => {
+      if (isJoinedRoomsError || !joinedRoomsData?.roomIds) {
+        throw new Error(USER_NO_ROOM_CREATED);
+      }
       const response = await fetch(`${URL}/api/v1/room`);
       const responseJson = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(responseJson.message || NETWORK_ISSUE);
       }
       return responseJson.roomsData as Room[];
     },
-    enabled: !!joinedRoomsData?.roomIds
+    enabled: !!joinedRoomsData?.roomIds,
   });
 
-  if (isJoinedRoomsPending || isRoomsPending) {
+  if (isJoinedRoomsPending || (isRoomsPending && !isJoinedRoomsError)) {
     return (
       <Layout>
         <div className={"w-full h-full flex justify-center"}>
@@ -72,7 +85,7 @@ export const Home = () => {
             "w-full h-screen flex flex-col items-center justify-center"
           }
         >
-          {joinedRoomsError?.message === USER_NO_ROOM_CREATED ? (
+          {joinedRoomsError?.message == USER_NO_ROOM_CREATED ? (
             <>
               <h1 className={"p-4"}>Oops! You have not joined any rooms</h1>
               <Button asChild>
@@ -98,7 +111,7 @@ export const Home = () => {
             </>
           ) : roomsError ? (
             <>
-            <h1>Issue with Rooms </h1>
+              <h1>Issue with Rooms </h1>
             </>
           ) : (
             <h1>Network Issue</h1>
@@ -109,13 +122,15 @@ export const Home = () => {
   }
 
   // Filter rooms to only show joined rooms
-  const joinedRooms = roomsData?.filter(room => 
-    room.id === joinedRoomsData.roomIds.room_id
+  const joinedRooms = roomsData?.filter(
+    (room) => room.id === joinedRoomsData.roomIds.room_id
   );
 
   return (
     <Layout>
-      <section className={"grid p-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"}>
+      <section
+        className={"grid p-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"}
+      >
         {joinedRooms?.map((room, index) => (
           <RoomCard key={index} room={room} isJoined={true} />
         ))}
