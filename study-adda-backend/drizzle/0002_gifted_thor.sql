@@ -1,0 +1,1 @@
+ALTER TABLE "users_to_rooms" ALTER COLUMN "room_role" SET DEFAULT 'student';

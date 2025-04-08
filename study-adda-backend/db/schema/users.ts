@@ -19,5 +19,5 @@ export const usersToRooms = pgTable("users_to_rooms", {
   room_id: serial("room_id")
     .notNull()
     .references(() => rooms.id),
-  room_role: ROOM_ROLE_ENUM("room_role"),
+  room_role: ROOM_ROLE_ENUM("room_role").default("student"),
 });

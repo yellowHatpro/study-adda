@@ -15,6 +15,13 @@
       "when": 1744130945690,
       "tag": "0001_smiling_paladin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1744131219656,
+      "tag": "0002_gifted_thor",
+      "breakpoints": true
     }
   ]
 }
